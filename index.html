@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Пульт декабря АСД</title>
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#1d1d1b;--mut:#6b6a66;--line:#e4e2dc;--acc:#e8590c;--acc2:#fff1e8;--ok:#2f9e44;--okb:#e9f7ec;--bad:#d6336c;--badb:#fde8ef;--warn:#b7791f;--warnb:#fff6e0;--blue:#1c7ed6;--blueb:#e7f1fb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--card:#1f1f1d;--ink:#ecebe6;--mut:#9d9b94;--line:#33322f;--acc:#ff7a2e;--acc2:#3a2416;--ok:#51cf66;--okb:#1b3122;--bad:#f06595;--badb:#3a1a27;--warn:#f0b44c;--warnb:#3a2f16;--blue:#4dabf7;--blueb:#16283a}}
+:root[data-theme="dark"]{--bg:#151514;--card:#1f1f1d;--ink:#ecebe6;--mut:#9d9b94;--line:#33322f;--acc:#ff7a2e;--acc2:#3a2416;--ok:#51cf66;--okb:#1b3122;--bad:#f06595;--badb:#3a1a27;--warn:#f0b44c;--warnb:#3a2f16;--blue:#4dabf7;--blueb:#16283a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+h1{font-size:22px;margin:0}
+.sub{color:var(--mut);font-size:13px}
+.who{font-size:13px;color:var(--mut)} .who select{font:inherit;padding:2px 6px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--mut)} .kpi .v{font-size:24px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums} .kpi .s{font-size:12px;color:var(--mut)}
+.bar{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--acc)}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+nav button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:20px;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 8px;font-size:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.daynav{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.daynav button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer}
+.daynav b{font-size:18px}
+.item{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line)} .item:first-of-type{border-top:0}
+.item input{margin-top:3px;width:17px;height:17px;accent-color:var(--ok);flex:none}
+.item .t{flex:1} .item .m{font-size:12px;color:var(--mut)}
+.done .t{text-decoration:line-through;color:var(--mut)}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;background:var(--acc2);color:var(--acc);margin-right:4px;white-space:nowrap}
+.tag.ok{background:var(--okb);color:var(--ok)} .tag.bad{background:var(--badb);color:var(--bad)} .tag.w{background:var(--warnb);color:var(--warn)} .tag.b{background:var(--blueb);color:var(--blue)}
+.empty{color:var(--mut);font-size:13px;padding:4px 0}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal .h{font-size:12px;color:var(--mut);text-align:center}
+.cal .d{background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:96px;padding:6px;cursor:pointer;font-size:12px;overflow:hidden}
+.cal .d.we{opacity:.72} .cal .d.out{opacity:.4} .cal .d.today{outline:2px solid var(--acc)}
+.cal .d .n{font-weight:700;font-size:13px;display:flex;justify-content:space-between}
+.cal .d .ln{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:1px}
+.wk{font-size:12px;color:var(--mut);margin:10px 0 4px}
+@media(max-width:760px){.cal{grid-template-columns:1fr}.cal .h{display:none}.cal .d{min-height:0}.cal .d.empty7{display:none}}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{text-align:left;padding:7px 6px;border-top:1px solid var(--line);vertical-align:top} th{font-size:12px;color:var(--mut);font-weight:600;border-top:0}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto}
+select.st{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);padding:2px 4px}
+.act{border-left:4px solid var(--acc)}
+.sync{font-size:12px;color:var(--mut)}
+svg text{fill:var(--mut);font-size:11px}
+.legend{font-size:12px;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+.note{font-size:13px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1 id="ttl">Пульт декабря</h1><div class="sub" id="ver"></div></div>
+  <div class="who">Я: <select id="who"></select> <span class="sync" id="sync">…</span></div>
+</header>
+<div class="kpis" id="kpis"></div>
+<nav id="nav"></nav>
+<main id="main"></main>
+</div>
+<script src="data.js"></script>
+<script src="facts.js"></script>
+<script>
+// ===== служебное =====
+const SB="https://zmbzgkeokedqesoilcmj.supabase.co/rest/v1/chp26_letter_edits";
+const KEY="sb_publishable_rLRV5jNYBuzEcQWDQbnnQA_9mEWldEN";
+const H={"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json"};
+const P="dec26:"; // префикс ключей этого пульта
+const F=window.FACTS||{days:{},updated:""};
+let S={}; // состояние: key -> {v,who,at}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rub=n=>(Math.round(n)||0).toLocaleString("ru-RU")+" ₽";
+const mln=n=>(n/1e6).toLocaleString("ru-RU",{maximumFractionDigits:2})+" млн";
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const D=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c)};
+const add=(s,n)=>{const d=D(s);d.setDate(d.getDate()+n);return iso(d)};
+const wd=s=>D(s).getDay(); // 0 вс
+const isWE=s=>{const w=wd(s);return w===0||w===6};
+const prevWork=s=>{while(isWE(s))s=add(s,-1);return s};
+const DN=["вс","пн","вт","ср","чт","пт","сб"];
+const MN=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+const human=s=>{const d=D(s);return d.getDate()+" "+MN[d.getMonth()]+", "+DN[d.getDay()]};
+const short=s=>{const d=D(s);return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")};
+const dmToIso=dm=>{const[d,m]=dm.split(".").map(Number);return (m===1?"2027":"2026")+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0")};
+const TODAY=(()=>{const t=iso(new Date());return t<META.start?META.start:t})();
+const ACT=Object.fromEntries(ACTS.map(a=>[a.id,a]));
+const COLORS={"решение":"#868e96","прозвон":"#1c7ed6","база":"#2f9e44","b2b":"#7048e8","эфир":"#e8590c","акция":"#d6336c","вебинар":"#f08c00","лидмагнит":"#0ca678","директ":"#fab005"};
+
+// ===== подготовка: свои пункты + обратный отсчёт по письмам =====
+const PREP=[];
+ACTS.forEach(a=>(a.prep||[]).forEach((p,i)=>{const m=p.match(/^(\d\d\.\d\d)\s*—\s*(.+)$/);if(!m)return;
+  PREP.push({key:"p:"+a.id+":"+i,due:dmToIso(m[1]),text:m[2],act:a.id,who:a.who})}));
+MAILS.forEach((m,i)=>{m.key="m:"+m.date+":"+m.time.replace(":","")+":"+m.act;
+  [[-5,"Текст письма",m.who],[-3,"Сборка черновика в GetCourse",m.who],[-2,"Тестовое письмо и проверка ссылок",m.who],[-1,"«Да» Ильдара на отправку","Ильдар"]].forEach(([d,t,w],j)=>{
+    PREP.push({key:"pm:"+m.key+":"+j,due:prevWork(add(m.date,d)),text:t+": «"+m.topic+"» ("+short(m.date)+")",act:m.act,who:w,mail:m.key})})});
+PREP.sort((a,b)=>a.due.localeCompare(b.due));
+const isDone=k=>S[k]&&S[k].v==="1";
+const mailSt=m=>(S["st:"+m.key]&&S["st:"+m.key].v)||m.st;
+
+// ===== план денег и заявок по дням =====
+const DEC=[];for(let d="2026-12-01";d<="2026-12-31";d=add(d,1))DEC.push(d);
+const W=d=>DAY_WEIGHT[d]??(isWE(d)?0.3:1);
+const WSUM=DEC.reduce((s,d)=>s+W(d),0);
+const APPS=STREAMS.reduce((s,x)=>s+x.apps,0);
+const planTo=(d,total)=>DEC.filter(x=>x<=d).reduce((s,x)=>s+W(x),0)/WSUM*total;
+const factTo=(d,f)=>Object.entries(F.days).filter(([k])=>k>="2026-12-01"&&k<=d).reduce((s,[,v])=>s+(v[f]||0),0);
+
+// ===== синхронизация =====
+async function load(){
+  try{const r=await fetch(SB+"?select=letter_key,body,who,at&letter_key=like."+encodeURIComponent(P)+"*&order=at.asc",{headers:H});
+    if(!r.ok)throw 0;const rows=await r.json();S={};rows.forEach(x=>{S[x.letter_key.slice(P.length)]={v:x.body,who:x.who,at:x.at}});
+    $("#sync").textContent="общие отметки ✓";try{localStorage.setItem("dec26S",JSON.stringify(S))}catch(e){}
+  }catch(e){try{S=JSON.parse(localStorage.getItem("dec26S")||"{}")}catch(_){S={}}$("#sync").textContent="нет связи с базой, отметки локально"}
+  render();
+}
+async function save(k,v){
+  const who=$("#who").value||"—";S[k]={v,who,at:new Date().toISOString()};render();
+  try{const r=await fetch(SB,{method:"POST",headers:{...H,"Prefer":"return=minimal"},body:JSON.stringify({letter_key:P+k,body:v,who})});if(!r.ok)throw 0;$("#sync").textContent="сохранено ✓"}
+  catch(e){$("#sync").textContent="не сохранилось в базу!";try{localStorage.setItem("dec26S",JSON.stringify(S))}catch(_){}}
+}
+
+// ===== шапка =====
+let TAB="today",DAY=TODAY;
+function kpis(){
+  const lastFactDay=TODAY<"2026-12-01"?"2026-11-30":TODAY;
+  const pm=planTo(lastFactDay,META.goal),fm=factTo(lastFactDay,"pay");
+  const pa=planTo(lastFactDay,APPS),fa=factTo(lastFactDay,"apps");
+  const fast=factTo(lastFactDay,"fast"),taken=factTo(lastFactDay,"taken");
+  const due=PREP.filter(p=>p.due<=TODAY),late=due.filter(p=>p.due<TODAY&&!isDone(p.key)).length,done=PREP.filter(p=>isDone(p.key)).length;
+  $("#kpis").innerHTML=`
+  <div class="kpi"><div class="l">Деньги декабря</div><div class="v">${mln(fm)}</div><div class="s">план к дню ${mln(pm)} · цель ${mln(META.goal)}</div><div class="bar"><i style="width:${Math.min(100,fm/META.goal*100)}%"></i></div></div>
+  <div class="kpi"><div class="l">Горячие заявки</div><div class="v">${fa}</div><div class="s">план к дню ${Math.round(pa)} · на месяц ${APPS}</div><div class="bar"><i style="width:${Math.min(100,fa/APPS*100)}%"></i></div></div>
+  <div class="kpi"><div class="l">Заявку взяли за 10 минут</div><div class="v">${taken?Math.round(fast/taken*100)+"%":"—"}</div><div class="s">${fast} из ${taken} · норма 100%</div></div>
+  <div class="kpi"><div class="l">Подготовка на опережение</div><div class="v" style="color:${late?"var(--bad)":"var(--ok)"}">${late?late+" просрочено":"в срок"}</div><div class="s">готово ${done} из ${PREP.length} пунктов</div><div class="bar"><i style="width:${done/PREP.length*100}%;background:var(--ok)"></i></div></div>`;
+}
+const TABS=[["today","Сегодня"],["cal","Календарь"],["money","Деньги 10 млн"],["acts","Активности"],["mails","Письма"],["calls","Прозвон"]];
+function nav(){$("#nav").innerHTML=TABS.map(([k,t])=>`<button class="${k===TAB?"on":""}" onclick="go('${k}')">${t}</button>`).join("")}
+function go(t,d){TAB=t;if(d)DAY=d;try{localStorage.setItem("dec26tab",t)}catch(e){}render();window.scrollTo({top:0})}
+
+// ===== вкладки =====
+const prepRow=p=>{const late=p.due<TODAY&&!isDone(p.key);const s=S[p.key];
+  return `<label class="item ${isDone(p.key)?"done":""}"><input type="checkbox" ${isDone(p.key)?"checked":""} onchange="save('${p.key}',this.checked?'1':'0')"><span class="t">${esc(p.text)}<div class="m">${late?'<span class="tag bad">просрочено с '+short(p.due)+'</span>':""}<span class="tag">${esc(ACT[p.act]?.name||"")}</span> ${esc(p.who)}${isDone(p.key)&&s?" · отметил "+esc(s.who):""}</div></span></label>`};
+const mailRow=m=>`<div class="item"><span class="t"><b>${m.time}</b> ${esc(m.topic)}<div class="m">${esc(m.seg)} · ${esc(m.who)} · <span class="tag">${esc(ACT[m.act].name)}</span> ${stTag(mailSt(m))}</div></span></div>`;
+const ST={plan:["план",""],text:["текст","w"],ready:["собрано","b"],approved:["утверждено","ok"],sent:["отправлено","ok"]};
+const stTag=s=>`<span class="tag ${ST[s]?.[1]||""}">${ST[s]?.[0]||s}</span>`;
+const callsOn=d=>CALLS.filter(c=>c.from<=d&&c.to>=d);
+
+function today(){
+  const d=DAY,mails=MAILS.filter(m=>m.date===d),calls=callsOn(d),prep=PREP.filter(p=>p.due===d);
+  const starts=ACTS.filter(a=>a.start===d),ends=ACTS.filter(a=>a.end===d&&a.end!==a.start);
+  const lim=d<TODAY?d:TODAY,late=PREP.filter(p=>p.due<lim&&!isDone(p.key));
+  const tom=add(d,1),tm=MAILS.filter(m=>m.date===tom);
+  const f=F.days[d];
+  return `<div class="daynav"><button onclick="go('today','${add(d,-1)}')">←</button><b>${human(d)}</b><button onclick="go('today','${add(d,1)}')">→</button>${d!==TODAY?`<button onclick="go('today','${TODAY}')">сегодня</button>`:""}</div>
+  ${starts.length||ends.length?`<div class="card">${starts.map(a=>`<span class="tag ok">старт</span> ${esc(a.name)}${a.time?" в "+a.time:""} `).join("<br>")}${ends.map(a=>`<br><span class="tag bad">финал</span> ${esc(a.name)}`).join("")}</div>`:""}
+  <div class="grid2">
+   <div class="card"><h3>Уходит сегодня: письма (${mails.length})</h3>${mails.map(mailRow).join("")||'<div class="empty">писем нет</div>'}</div>
+   <div class="card"><h3>Прозвон сегодня (${calls.length})</h3>${calls.map(c=>`<div class="item"><span class="t"><span class="tag b">${esc(c.dept)}</span>${esc(c.list)}<div class="m">${esc(c.why)} · ${c.size?c.size+" чел.":"число посчитать"} · до ${short(c.to)}</div></span></div>`).join("")||'<div class="empty">списков нет</div>'}</div>
+  </div>
+  <div class="grid2">
+   <div class="card"><h3>Готовим сегодня (${prep.filter(p=>isDone(p.key)).length}/${prep.length})</h3>${prep.map(prepRow).join("")||'<div class="empty">пунктов нет</div>'}${tm.length?`<div class="m note" style="margin-top:8px">Завтра уходит: ${tm.map(m=>esc(m.topic)).join(" · ")}</div>`:""}</div>
+   <div class="card"><h3 style="color:${late.length?"var(--bad)":"inherit"}">Хвосты: не сделано вовремя (${late.length})</h3>${late.slice(0,30).map(prepRow).join("")||'<div class="empty">всё в срок 👍</div>'}</div>
+  </div>
+  <div class="card"><h3>План / факт дня</h3>${d<"2026-12-01"?'<div class="empty">Декабрь начнётся 1.12. До него — подготовка.</div>':`<table><tr><th></th><th class="r">План</th><th class="r">Факт</th></tr>
+   <tr><td>Деньги</td><td class="r">${rub(W(d)/WSUM*META.goal)}</td><td class="r">${f?rub(f.pay):"—"}</td></tr>
+   <tr><td>Горячие заявки</td><td class="r">${Math.round(W(d)/WSUM*APPS)}</td><td class="r">${f?f.apps:"—"}</td></tr>
+   <tr><td>Взяли за 10 минут</td><td class="r">100%</td><td class="r">${f&&f.taken?Math.round(f.fast/f.taken*100)+"%":"—"}</td></tr></table>`}</div>`;
+}
+
+function cal(){
+  let s="2026-11-23",out=`<div class="note">Клик по дню открывает его во вкладке «Сегодня». ● письма ● прозвон ● подготовка (красным — просрочено)</div>`;
+  while(s<="2027-01-03"){
+    out+=`<div class="wk">Неделя ${short(s)}–${short(add(s,6))}</div><div class="cal">`+["пн","вт","ср","чт","пт","сб","вс"].map(x=>`<div class="h">${x}</div>`).join("");
+    for(let i=0;i<7;i++){const d=add(s,i),ms=MAILS.filter(m=>m.date===d),cs=callsOn(d),ps=PREP.filter(p=>p.due===d),late=ps.filter(p=>d<TODAY&&!isDone(p.key)).length,pd=ps.filter(p=>isDone(p.key)).length;
+      const st=ACTS.filter(a=>a.start===d||(a.end===d&&a.end!==a.start));
+      out+=`<div class="d ${isWE(d)?"we":""} ${d===TODAY?"today":""} ${!ms.length&&!cs.length&&!ps.length&&!st.length?"empty7":""}" onclick="go('today','${d}')">
+        <div class="n"><span>${short(d)} <span class="sub">${DN[wd(d)]}</span></span>${d>="2026-12-01"&&d<="2026-12-31"?`<span class="sub">${(W(d)/WSUM*META.goal/1e3).toFixed(0)}к</span>`:""}</div>
+        ${st.map(a=>`<div class="ln"><span class="dot" style="background:${COLORS[a.kind]}"></span>${a.start===d?"▶ ":"■ "}${esc(a.name)}</div>`).join("")}
+        ${ms.length?`<div class="ln"><span class="dot" style="background:var(--acc)"></span>${ms.length} письм${ms.length===1?"о":"а"}: ${esc(ms[0].topic)}</div>`:""}
+        ${cs.length?`<div class="ln"><span class="dot" style="background:var(--blue)"></span>прозвон: ${cs.length} спис.</div>`:""}
+        ${ps.length?`<div class="ln" style="color:${late?"var(--bad)":"inherit"}"><span class="dot" style="background:${late?"var(--bad)":"var(--ok)"}"></span>готовим ${pd}/${ps.length}</div>`:""}
+      </div>`}
+    out+="</div>";s=add(s,7);
+  }
+  return out;
+}
+
+function chart(){
+  const w=900,h=220,pad=40,maxV=META.goal;const x=i=>pad+i*(w-pad-10)/(DEC.length-1),y=v=>h-24-(v/maxV)*(h-40);
+  let pl="",fl="",last=TODAY<"2026-12-01"?null:TODAY;
+  DEC.forEach((d,i)=>{pl+=(i?"L":"M")+x(i)+" "+y(planTo(d,maxV));if(last&&d<=last)fl+=(i?"L":"M")+x(i)+" "+y(factTo(d,"pay"))});
+  const grid=[0,2.5,5,7.5,10].map(v=>`<line x1="${pad}" x2="${w-10}" y1="${y(v*1e6)}" y2="${y(v*1e6)}" stroke="var(--line)"/><text x="4" y="${y(v*1e6)+4}">${v} млн</text>`).join("");
+  const ticks=DEC.filter((d,i)=>i%5===0||i===30).map(d=>`<text x="${x(DEC.indexOf(d))-(d==="2026-12-31"?30:8)}" y="${h-6}">${short(d)}</text>`).join("");
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="План и факт денег декабря нарастающим итогом">${grid}${ticks}<path d="${pl}" fill="none" stroke="var(--mut)" stroke-width="2" stroke-dasharray="5 4"/>${fl?`<path d="${fl}" fill="none" stroke="var(--acc)" stroke-width="3"/>`:""}</svg>
+  <div class="legend"><span>- - - план нарастающим</span><span style="color:var(--acc)">━ факт (платежи GetCourse)</span></div>`;
+}
+function money(){
+  const tot=STREAMS.reduce((s,x)=>s+x.money,0);
+  return `<div class="card"><h3>Деньги нарастающим итогом</h3>${chart()}</div>
+  <div class="card"><h3>8 источников денег — модель ${mln(tot)}</h3><div class="tw"><table><tr><th>Источник</th><th>Отдел</th><th class="r">Продаж</th><th class="r">Чек</th><th class="r">Деньги</th><th class="r">Заявок</th></tr>
+  ${STREAMS.map(s=>`<tr><td>${esc(s.name)}<div class="m note">${esc(s.note)}</div></td><td>${esc(s.dept)}</td><td class="r">${s.sales||"—"}</td><td class="r">${s.avg?rub(s.avg):"—"}</td><td class="r"><b>${rub(s.money)}</b></td><td class="r">${s.apps||"—"}</td></tr>`).join("")}
+  <tr><td><b>Итого</b></td><td></td><td class="r">${STREAMS.reduce((a,s)=>a+s.sales,0)}</td><td></td><td class="r"><b>${rub(tot)}</b></td><td class="r"><b>${APPS}</b></td></tr></table></div>
+  <p class="note">Средние чеки — оценка для модели, цены пакетов и продлений утверждает Ильдар и сверяет хранитель цен. Факт по источникам появится, когда платежи декабря разметим по акциям.</p></div>
+  <div class="card"><h3>По отделам: факт декабря</h3><table><tr><th>Отдел</th><th class="r">План</th><th class="r">Факт</th></tr>
+  ${[["ОП1","pay1",["ОП1"]],["ОП2","pay2",["ОП2","РОП+ОП2"]],["Общие и самооплаты","pay0",["ОП1+ОП2","все"]]].map(([n,f,ds])=>{const pl=STREAMS.filter(s=>ds.includes(s.dept)).reduce((a,s)=>a+s.money,0);return `<tr><td>${n}</td><td class="r">${rub(pl)}</td><td class="r">${rub(factTo("2026-12-31",f))}</td></tr>`}).join("")}</table>
+  <p class="note">Факт обновлён: ${esc(F.updated||"—")}</p></div>`;
+}
+
+function acts(){
+  return ACTS.map(a=>{const ps=PREP.filter(p=>p.act===a.id),dn=ps.filter(p=>isDone(p.key)).length,late=ps.filter(p=>p.due<TODAY&&!isDone(p.key)).length,ms=MAILS.filter(m=>m.act===a.id),cs=CALLS.filter(c=>c.act===a.id);
+   return `<div class="card act" style="border-left-color:${COLORS[a.kind]}"><h3>${esc(a.name)}</h3>
+   <div class="note"><span class="tag">${a.kind}</span>${short(a.start)}${a.end!==a.start?"–"+short(a.end):""}${a.time?" "+a.time:""} · отвечает ${esc(a.who)}${a.apps?" · заявок "+a.apps:""}${a.money?" · "+mln(a.money):""} · писем ${ms.length} · списков ${cs.length}</div>
+   <div class="bar"><i style="width:${ps.length?dn/ps.length*100:0}%;background:${late?"var(--bad)":"var(--ok)"}"></i></div>
+   <div class="note" style="margin:4px 0">Готовность ${dn}/${ps.length}${late?` · <b style="color:var(--bad)">просрочено ${late}</b>`:""}</div>
+   <details><summary class="note">Все пункты подготовки</summary>${ps.map(prepRow).join("")}</details></div>`}).join("");
+}
+
+function mails(){
+  return `<div class="card"><h3>Письма декабря (${MAILS.length}) · одно письмо в день на адрес</h3><div class="tw"><table><tr><th>Дата</th><th>Тема</th><th>Сегмент</th><th>Активность</th><th>Статус</th></tr>
+  ${MAILS.map(m=>{const s=S["st:"+m.key];return `<tr><td class="r">${short(m.date)} ${DN[wd(m.date)]}<br><span class="note">${m.time}</span></td><td>${esc(m.topic)}</td><td>${esc(m.seg)}</td><td>${esc(ACT[m.act].name)}</td>
+  <td><select class="st" onchange="save('st:${m.key}',this.value)">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${mailSt(m)===k?"selected":""}>${v[0]}</option>`).join("")}</select>${s?`<div class="note">${esc(s.who)}</div>`:""}</td></tr>`}).join("")}</table></div>
+  <p class="note">Для каждого письма пульт сам ставит подготовку: Д-5 текст, Д-3 сборка, Д-2 тест, Д-1 «да» Ильдара (на выходные — в пятницу). Отправка на реальный сегмент — только после «да».</p></div>`;
+}
+function calls(){
+  return `<div class="card"><h3>Списки на прозвон</h3><div class="tw"><table><tr><th>Когда</th><th>Отдел</th><th>Список</th><th>Зачем</th><th class="r">Людей</th></tr>
+  ${CALLS.map(c=>`<tr><td class="r">${short(c.from)}${c.to!==c.from?"–"+short(c.to):""}</td><td><span class="tag b">${esc(c.dept)}</span></td><td>${esc(c.list)}<div class="note">${esc(ACT[c.act].name)}</div></td><td>${esc(c.why)}</td><td class="r">${c.size||"посчитать"}</td></tr>`).join("")}</table></div>
+  <p class="note">Сами списки с контактами лежат в GetCourse и amoCRM, сюда не выкладываются. Здесь только название, срок, отдел и число людей.</p></div>`;
+}
+
+function render(){kpis();nav();$("#main").innerHTML={today,cal,money,acts,mails,calls}[TAB]()}
+// ===== старт =====
+$("#ttl").textContent=META.title;$("#ver").textContent=META.version+" · обновлено "+META.updated;
+const WHO=["Ильдар","Директор по базе (Claude)","Регина","РОП Татьяна","Другой"];
+$("#who").innerHTML=WHO.map(w=>`<option>${w}</option>`).join("");
+try{const w=localStorage.getItem("dec26who");if(w)$("#who").value=w;const t=localStorage.getItem("dec26tab");if(t)TAB=t}catch(e){}
+$("#who").onchange=e=>{try{localStorage.setItem("dec26who",e.target.value)}catch(_){}};
+render();load();
+</script>
+</body>
+</html>
