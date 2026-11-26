@@ -1,1 +1,1 @@
-window.FACTS={"updated": "24.11.2026 15:30", "days": {}};
+window.FACTS={"updated": "26.11.2026 19:37", "days": {"2026-11-25": {"apps": 17, "apps1": 4, "apps2": 13, "pre": 0, "fast": 1, "taken": 14, "pay": 271450, "pay1": 162000, "pay2": 96900, "pay0": 12550, "payn": 7, "renew": 57000}, "2026-11-26": {"apps": 11, "apps1": 2, "apps2": 8, "pre": 1, "fast": 2, "taken": 6, "pay": 217420, "pay1": 26370, "pay2": 178500, "pay0": 12550, "payn": 8, "renew": 54500}}};

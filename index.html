@@ -54,6 +54,9 @@ select.st{font:inherit;font-size:13px;border:1px solid var(--line);border-radius
 svg text{fill:var(--mut);font-size:11px}
 .legend{font-size:12px;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
 .note{font-size:13px;color:var(--mut)}
+.gantt{display:grid;grid-template-columns:minmax(120px,240px) 1fr;gap:4px 10px;align-items:center}
+.gl{font-size:13px;line-height:1.25}.gt{border-bottom:1px dashed var(--line)}
+@media(max-width:760px){.gantt{grid-template-columns:96px 1fr}.gl{font-size:11px}.gl .note{display:none}}
 </style>
 </head>
 <body>
@@ -93,7 +96,7 @@ const short=s=>{const d=D(s);return String(d.getDate()).padStart(2,"0")+"."+Stri
 const dmToIso=dm=>{const[d,m]=dm.split(".").map(Number);return (m===1?"2027":"2026")+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0")};
 const TODAY=(()=>{const t=iso(new Date());return t<META.start?META.start:t})();
 const ACT=Object.fromEntries(ACTS.map(a=>[a.id,a]));
-const COLORS={"решение":"#868e96","прозвон":"#1c7ed6","база":"#2f9e44","b2b":"#7048e8","эфир":"#e8590c","акция":"#d6336c","вебинар":"#f08c00","лидмагнит":"#0ca678","директ":"#fab005"};
+const COLORS={"решение":"#868e96","прозвон":"#1c7ed6","база":"#2f9e44","b2b":"#7048e8","эфир":"#e8590c","акция":"#d6336c","вебинар":"#f08c00","лидмагнит":"#0ca678","директ":"#fab005","запуск":"#0b7285"};
 
 // ===== подготовка: свои пункты + обратный отсчёт по письмам =====
 const PREP=[];
@@ -129,7 +132,7 @@ async function save(k,v){
 }
 
 // ===== шапка =====
-let TAB="today",DAY=TODAY;
+let TAB="big",DAY=TODAY;
 function kpis(){
   const lastFactDay=TODAY<"2026-12-01"?"2026-11-30":TODAY;
   const pm=planTo(lastFactDay,META.goal),fm=factTo(lastFactDay,"pay");
@@ -142,11 +145,29 @@ function kpis(){
   <div class="kpi"><div class="l">Заявку взяли за 10 минут</div><div class="v">${taken?Math.round(fast/taken*100)+"%":"—"}</div><div class="s">${fast} из ${taken} · норма 100%</div></div>
   <div class="kpi"><div class="l">Подготовка на опережение</div><div class="v" style="color:${late?"var(--bad)":"var(--ok)"}">${late?late+" просрочено":"в срок"}</div><div class="s">готово ${done} из ${PREP.length} пунктов</div><div class="bar"><i style="width:${done/PREP.length*100}%;background:var(--ok)"></i></div></div>`;
 }
-const TABS=[["today","Сегодня"],["cal","Календарь"],["money","Деньги 10 млн"],["acts","Активности"],["mails","Письма"],["calls","Прозвон"]];
+const TABS=[["big","Крупно"],["today","Сегодня"],["cal","Календарь"],["money","Деньги 10 млн"],["acts","Активности"],["mails","Письма"],["calls","Прозвон"]];
 function nav(){$("#nav").innerHTML=TABS.map(([k,t])=>`<button class="${k===TAB?"on":""}" onclick="go('${k}')">${t}</button>`).join("")}
 function go(t,d){TAB=t;if(d)DAY=d;try{localStorage.setItem("dec26tab",t)}catch(e){}render();window.scrollTo({top:0})}
 
 // ===== вкладки =====
+function big(){
+  const A="2026-11-25",Z="2026-12-31",days=[];for(let d=A;d<=Z;d=add(d,1))days.push(d);
+  const n=days.length,pct=d=>Math.max(0,days.indexOf(d<A?A:d>Z?Z:d))/n*100,wid=(s,e)=>(days.indexOf(e>Z?Z:e)-days.indexOf(s<A?A:s)+1)/n*100;
+  const rows=ACTS.filter(a=>a.big);
+  const head=days.filter(d=>d===A||D(d).getDay()===1).map(d=>`<span style="position:absolute;left:${pct(d)}%;font-size:11px;color:var(--mut)">${short(d)}</span>`).join("");
+  const todayLine=TODAY>=A&&TODAY<=Z?`<i style="position:absolute;left:${pct(TODAY)+50/n}%;top:0;bottom:0;border-left:2px solid var(--acc);opacity:.6"></i>`:"";
+  const ms=(MILESTONES||[]).map(m=>`<i title="${esc(m.text)}" style="position:absolute;left:calc(${pct(m.date)+50/n}% - 5px);top:2px;width:10px;height:10px;background:var(--ink);transform:rotate(45deg)"></i>`).join("");
+  return `<div class="card"><h3>Декабрь крупными мазками</h3>
+  <div class="gantt"><div class="gl"></div><div class="gt" style="position:relative;height:18px">${head}</div>
+   <div class="gl note">Вехи</div><div class="gt" style="position:relative;height:16px">${ms}${todayLine}</div>
+   ${rows.map(a=>{const one=a.start===a.end;return `<div class="gl" title="${esc(a.note||"")}">${esc(a.name)}<div class="note">${esc(a.who)}${a.money?" · "+mln(a.money):""}</div></div>
+   <div class="gt" style="position:relative;height:34px;cursor:pointer" onclick="go('today','${a.start<TODAY?TODAY:a.start}')">${todayLine}${one?`<i style="position:absolute;left:calc(${pct(a.start)+50/n}% - 9px);top:8px;width:18px;height:18px;background:${COLORS[a.kind]};transform:rotate(45deg);border-radius:3px"></i><span style="position:absolute;left:calc(${pct(a.start)+50/n}% + 14px);top:8px;font-size:12px;white-space:nowrap">${short(a.start)}${a.time?" "+a.time:""}</span>`
+     :`<i style="position:absolute;left:${pct(a.start)}%;width:${wid(a.start,a.end)}%;top:8px;height:18px;background:${COLORS[a.kind]};border-radius:9px;opacity:.85"></i>`}</div>`}).join("")}
+  </div><div class="legend"><span><span class="dot" style="background:var(--ink)"></span>вехи</span><span style="color:var(--acc)">│ сегодня</span><span>клик по полосе открывает день</span></div></div>
+  <div class="card"><h3>Вехи декабря</h3>${(MILESTONES||[]).map(m=>`<div class="item"><span class="t"><b>${human(m.date)}</b><div class="m">${esc(m.text)}</div></span></div>`).join("")}</div>
+  <div class="card"><h3>Что это за события</h3>${rows.map(a=>`<div class="item"><span class="t"><span class="dot" style="background:${COLORS[a.kind]}"></span><b>${esc(a.name)}</b> · ${short(a.start)}${a.end!==a.start?"–"+short(a.end):""}<div class="m">${esc(a.note||"")}${a.note?" · ":""}писем ${MAILS.filter(m=>m.act===a.id).length}, списков ${CALLS.filter(c=>c.act===a.id).length}${a.apps?", заявок "+a.apps:""}</div></span></div>`).join("")}</div>`;
+}
+
 const prepRow=p=>{const late=p.due<TODAY&&!isDone(p.key);const s=S[p.key];
   return `<label class="item ${isDone(p.key)?"done":""}"><input type="checkbox" ${isDone(p.key)?"checked":""} onchange="save('${p.key}',this.checked?'1':'0')"><span class="t">${esc(p.text)}<div class="m">${late?'<span class="tag bad">просрочено с '+short(p.due)+'</span>':""}<span class="tag">${esc(ACT[p.act]?.name||"")}</span> ${esc(p.who)}${isDone(p.key)&&s?" · отметил "+esc(s.who):""}</div></span></label>`};
 const mailRow=m=>`<div class="item"><span class="t"><b>${m.time}</b> ${esc(m.topic)}<div class="m">${esc(m.seg)} · ${esc(m.who)} · <span class="tag">${esc(ACT[m.act].name)}</span> ${stTag(mailSt(m))}</div></span></div>`;
@@ -236,7 +257,7 @@ function calls(){
   <p class="note">Сами списки с контактами лежат в GetCourse и amoCRM, сюда не выкладываются. Здесь только название, срок, отдел и число людей.</p></div>`;
 }
 
-function render(){kpis();nav();$("#main").innerHTML={today,cal,money,acts,mails,calls}[TAB]()}
+function render(){kpis();nav();$("#main").innerHTML={big,today,cal,money,acts,mails,calls}[TAB]()}
 // ===== старт =====
 $("#ttl").textContent=META.title;$("#ver").textContent=META.version+" · обновлено "+META.updated;
 const WHO=["Ильдар","Директор по базе (Claude)","Регина","РОП Татьяна","Другой"];
